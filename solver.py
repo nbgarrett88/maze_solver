@@ -1,4 +1,8 @@
 from tkinter import Tk, Canvas
+import random
+import time
+
+ANIMATION_DELAY = 0.03
 
 class Window:
     def __init__(self, height, width):
@@ -24,6 +28,9 @@ class Window:
     
     def draw_cell(self, cell):
         cell.draw(self.__canvas)
+    
+    def draw_maze(self, maze):
+        maze._draw_cells(self.__canvas, self.__root)
 
     def draw_move(self, cell, to_cell, undo=False):
 
@@ -43,11 +50,57 @@ class Window:
     def close(self):
         self.__running = False
 
+class Maze:
+    def __init__(self, num_rows, num_cols, cell_size_x, cell_size_y, seed=None):
+        self.num_rows = num_rows
+        self.num_cols = num_cols
+        self.cell_size_x = cell_size_x
+        self.cell_size_y = cell_size_y
+        self.seed = seed
+        
+        if self.seed:
+            self.seed = random.seed(seed)
+
+        self._create_cells()
+        self._break_walls_r()
+
+    def _create_cells(self):
+        self._cells = []
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                cell = Cell(Point(i,j),Point(i+1,j+1))
+                self._cells.append(cell)
+    
+    def _draw_cells(self, canvas, win):
+        
+        shift_width = (int(canvas['width']) - self.num_cols * self.cell_size_x) / 2
+        shift_height = (int(canvas['height']) - self.num_rows * self.cell_size_y) / 2
+
+        for cell in self._cells:
+            cell.p1.x = (cell.p1.x * self.cell_size_x) + shift_width
+            cell.p2.x = (cell.p2.x * self.cell_size_x) + shift_width
+            cell.p1.y = (cell.p1.y * self.cell_size_y) + shift_height
+            cell.p2.y = (cell.p2.y * self.cell_size_y) + shift_height
+            
+            if cell == self._cells[0]:
+                cell.tw = False
+            elif cell == self._cells[-1]:
+                cell.bw = False
+
+            cell.draw(canvas)
+            win.update()
+            time.sleep(ANIMATION_DELAY)
+
+    def _break_walls_r(self):
+        
+        self._cells[0].visited = True
+        visited = [self._cells[0]]
+        return
+
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
 
 class Line:
     def __init__(self, p1, p2):
@@ -62,7 +115,6 @@ class Line:
             self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2
         )
         canvas.pack(fill='both', expand=True)
-
 
 class Cell:
     def __init__(self, p1, p2, lw=True, rw=True, tw=True, bw=True, visited=False):
@@ -86,17 +138,19 @@ class Cell:
 
 def main():
     win = Window(600, 800)
+    maze = Maze(10,10,25,25,0)
+    win.draw_maze(maze)
 
-    c1 = Cell(Point(50,50),Point(75,75), lw=False, rw=False)
-    c2 = Cell(Point(75,50),Point(100,75), lw=False, bw=False)
-    c3 = Cell(Point(75,75),Point(100,100), tw=False, bw=False)
+    #c1 = Cell(Point(50,50),Point(75,75), lw=False, rw=False)
+    #c2 = Cell(Point(75,50),Point(100,75), lw=False, bw=False)
+    #c3 = Cell(Point(75,75),Point(100,100), tw=False, bw=False)
 
-    cells = [c1,c2,c3]
+    #cells = [c1,c2,c3]
 
-    for cell in range(len(cells)):
-        win.draw_cell(cells[cell])
-        if not cells[cell] == cells[-1]:
-            win.draw_move(cells[cell],cells[cell+1])
+    #for cell in range(len(cells)):
+    #    win.draw_cell(cells[cell])
+    #    if not cells[cell] == cells[-1]:
+    #        win.draw_move(cells[cell],cells[cell+1])
 
     win.wait_for_close()
 
