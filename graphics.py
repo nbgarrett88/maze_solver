@@ -32,12 +32,14 @@ class Window:
     def draw_maze(self, maze):
         maze._draw_cells(self.__canvas, self.__root)
 
-    def draw_move(self, cell, to_cell, undo=False):
+    def solve_maze(self, maze, cells):
+        maze._solve(self.__canvas, self.__root, cells)
 
+    def draw_move(self, cell, to_cell, undo=False):
+        
+        fill_color = 'red'
         if undo:
             fill_color = 'gray'
-        else:
-            fill_color = 'red'
         
         self.draw_line(
             Line(

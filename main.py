@@ -3,11 +3,10 @@ from maze import Maze
 
 def main():
     win = Window(600, 800)
-    maze = Maze(12,12,25)
-    #maze = Maze(23,31,25,full_screen=True)
-    
+    maze = Maze(10,10,50,win,seed=1)
     win.draw_maze(maze)
-    maze._break_walls_r
+    paths = maze._create_paths()
+    win.solve_maze(maze,paths)
     win._wait_for_close()
 
 if __name__ == '__main__':

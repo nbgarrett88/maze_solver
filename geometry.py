@@ -12,6 +12,9 @@ class Line:
         self.p1 = p1
         self.p2 = p2
     
+    def __repr__(self):
+        return f'Line(Point({self.p1.x},{self.p1.y}),Point({self.p2.x},{self.p2.y}))'
+    
     def get_midpoint(self):
         return Point((self.p1.x + self.p2.x)/2, (self.p1.y + self.p2.y)/2)
     
@@ -34,13 +37,28 @@ class Cell:
         self.tw = tw
         self.bw = bw
         self.visited = visited
+    
+    def __repr__(self):
+        return f'Cell(Point({self.p1.x},{self.p1.y}),Point({self.p2.x},{self.p2.y}))'
         
-    def draw(self, canvas):
+    def draw(self, canvas, overwrite=False):
+    
         if self.lw:
             Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas)
+        elif not self.lw and overwrite:
+            Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas,'white')
+        
         if self.rw:
             Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas)
+        elif not self.rw and overwrite:
+            Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white')
+        
         if self.tw:
             Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas)
+        elif not self.tw and overwrite:
+            Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white')
+        
         if self.bw:
             Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas)
+        elif not self.bw and overwrite:
+            Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas,'white')
