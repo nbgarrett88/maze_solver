@@ -6,16 +6,22 @@ import time
 ANIMATION_DELAY = 0.02
 
 class Maze:
-    def __init__(self, num_rows, num_cols, cell_size, window=None, seed=None):
-        self.num_rows = num_rows
-        self.num_cols = num_cols
-        self.cell_size = cell_size
+    def __init__(self, window=None, seed=None):
         self.window = window
         self.seed = seed
         
         if self.seed:
             self.seed = random.seed(seed)
+        
+        self._display_interface()
+        
+        self.num_rows = int(self.window.row_box.get())
+        self.num_cols = int(self.window.col_box.get())
+        self.cell_size = (int(self.window.canvas['height']) // self.num_rows) - 2
+        
+        self._generate_cells()
 
+    def _display_interface(self):
         btn1 = Button(
             self.window.canvas, 
             text='New', 
@@ -24,16 +30,24 @@ class Maze:
             command=self._reset
         ).place(x=5,y=5)
 
-        self._create_cells()
+        btn2 = Button(
+            self.window.canvas, 
+            text='Solve', 
+            width=5,
+            height=2, 
+            command=self._solve
+        ).place(x=5,y=50)
 
     def _reset(self):
         self.window.canvas.delete("all")
-        self._create_cells()
+        self.num_rows = int(self.window.row_box.get())
+        self.num_cols = int(self.window.col_box.get())
+        self.cell_size = (int(self.window.canvas['height']) // self.num_rows) - 2
+        self._generate_cells()
         self._draw_cells()
         self._create()
-        self._solve()
     
-    def _create_cells(self):
+    def _generate_cells(self):
         self._cells = []
         for i in range(self.num_cols):
             for j in range(self.num_rows):
@@ -172,10 +186,10 @@ class Maze:
         
                 cel.draw(self.window.canvas, overwrite=True)      
     
-    def _solve(self):
-        self._unvisit_cells()
-        #TO-DO
-
     def _unvisit_cells(self):
         for cell in self._cells:
             cell.visited = False
+    
+    def _solve(self):
+        self._unvisit_cells()
+        #TO-DO

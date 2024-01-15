@@ -3,7 +3,7 @@ from maze import Maze
 
 def main():
     win = Window(600, 800)
-    maze = Maze(16,16,35,win)
+    maze = Maze(win)
     
     maze._draw_cells()
     maze._create()
