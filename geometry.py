@@ -25,7 +25,6 @@ class Line:
             fill=fill_color, 
             width=3
         )
-        canvas.pack(fill='both', expand=True)
     
     def draw_move(self, cell, to_cell, canvas, undo=False):
         

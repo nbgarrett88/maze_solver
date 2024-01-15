@@ -23,13 +23,13 @@ class Tests(unittest.TestCase):
             False,
         )
 
-    def test_maze_reset(self):
+    def test_maze_clear_visited(self):
         m3 = Maze(10, 10, 25)
         
         for cell in m3._cells:
             cell.visited = True
         
-        m3._reset()
+        m3._unvisit_cells()
         
         for cell in m3._cells:
             self.assertEqual(
