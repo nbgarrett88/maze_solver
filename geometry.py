@@ -23,9 +23,24 @@ class Line:
             self.p1.x, self.p1.y, 
             self.p2.x, self.p2.y, 
             fill=fill_color, 
-            width=2
+            width=3
         )
         canvas.pack(fill='both', expand=True)
+    
+    def draw_move(self, cell, to_cell, canvas, undo=False):
+        
+        fill_color = 'red'
+        if undo:
+            fill_color = 'gray'
+        
+        self.draw(
+            Line(
+                Line(cell.p1,cell.p2).get_midpoint(),
+                Line(to_cell.p1,to_cell.p2).get_midpoint()
+            ),
+            canvas,
+            fill_color
+        )
 
 
 class Cell:

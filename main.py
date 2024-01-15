@@ -3,10 +3,12 @@ from maze import Maze
 
 def main():
     win = Window(600, 800)
-    maze = Maze(10,10,50,win,seed=1)
-    win.draw_maze(maze)
-    paths = maze._create_paths()
-    win.solve_maze(maze,paths)
+    maze = Maze(16,16,35,win)
+    
+    maze._draw_cells()
+    maze._create()
+    maze._solve()
+    
     win._wait_for_close()
 
 if __name__ == '__main__':
