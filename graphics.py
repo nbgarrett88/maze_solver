@@ -11,16 +11,18 @@ class Window:
         self.canvas = Canvas(self.root, bg='white', height=height, width=width)
         self.canvas.pack(fill='both', expand=1)
 
-        self.row_box = Entry(self.root, width=3)
-        self.row_box.insert(0,'15')
+        self.canvas.create_rectangle(0, 0, 75, height, fill='RoyalBlue')
+        self.canvas.create_rectangle(width-75, 0, width, height, fill='RoyalBlue')
+
+        Label(self.root, text='Rows:').place(x=5, y=100)
+        self.row_box = Entry(self.root, width=3, justify='center')
+        self.row_box.insert(0, '14')
         self.row_box.place(x=43, y=98)
 
-        self.col_box = Entry(self.root, width=3)
-        self.col_box.insert(0,'15')       
+        Label(self.root, text='Cols:').place(x=5, y=120)
+        self.col_box = Entry(self.root, width=3, justify='center')
+        self.col_box.insert(0, '14')       
         self.col_box.place(x=43, y=119)
-
-        row_label = Label(self.root, text='Rows:').place(x=5,y=100)
-        col_label = Label(self.root, text='Cols:').place(x=5,y=120)
 
     def _redraw(self):
         self.root.update_idletasks()

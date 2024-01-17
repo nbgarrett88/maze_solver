@@ -18,29 +18,14 @@ class Line:
     def get_midpoint(self):
         return Point((self.p1.x + self.p2.x)/2, (self.p1.y + self.p2.y)/2)
     
-    def draw(self, canvas, fill_color='black'):
+    def draw(self, canvas, fill_color='black', tag=None):
         canvas.create_line(
             self.p1.x, self.p1.y, 
             self.p2.x, self.p2.y, 
             fill=fill_color, 
-            width=3
+            width=3,
+            tags=tag
         )
-    
-    def draw_move(self, cell, to_cell, canvas, undo=False):
-        
-        fill_color = 'red'
-        if undo:
-            fill_color = 'gray'
-        
-        self.draw(
-            Line(
-                Line(cell.p1,cell.p2).get_midpoint(),
-                Line(to_cell.p1,to_cell.p2).get_midpoint()
-            ),
-            canvas,
-            fill_color
-        )
-
 
 class Cell:
     def __init__(self, p1, p2, lw=True, rw=True, tw=True, bw=True, visited=False):
@@ -58,21 +43,21 @@ class Cell:
     def draw(self, canvas, overwrite=False):
     
         if self.lw:
-            Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas)
+            Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas,tag='cell')
         elif not self.lw and overwrite:
-            Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas,'white')
+            Line(Point(self.p1.x, self.p1.y), Point(self.p1.x, self.p2.y)).draw(canvas,'white',tag='cell')
         
         if self.rw:
-            Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas)
+            Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas,tag='cell')
         elif not self.rw and overwrite:
-            Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white')
+            Line(Point(self.p2.x, self.p2.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white',tag='cell')
         
         if self.tw:
-            Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas)
+            Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas,tag='cell')
         elif not self.tw and overwrite:
-            Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white')
+            Line(Point(self.p1.x, self.p1.y), Point(self.p2.x, self.p1.y)).draw(canvas,'white',tag='cell')
         
         if self.bw:
-            Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas)
+            Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas,tag='cell')
         elif not self.bw and overwrite:
-            Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas,'white')
+            Line(Point(self.p1.x, self.p2.y), Point(self.p2.x, self.p2.y)).draw(canvas,'white',tag='cell')
