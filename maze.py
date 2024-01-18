@@ -125,6 +125,7 @@ class Maze:
            
             i = find_element(cell, self._cells)[0]
             j = find_element(cell, self._cells)[1]
+
             while True:
                 neighbor = pick_open_neighbors(i, j)
                 if neighbor:
@@ -132,15 +133,14 @@ class Maze:
                     neighbor.visited = True
                     i = find_element(neighbor, self._cells)[0]
                     j = find_element(neighbor, self._cells)[1]
-            
-                    if neighbor == self._cells[-1][-1] or neighbor == self._cells[0][0]:
-                        break
+    
                 else:
                     visited.append(cell)
                     i = find_element(cell, self._cells)[0]
                     j = find_element(cell, self._cells)[1]
-                    
                     if pick_open_neighbors(i, j) == None:
+                        visited.pop()
+                        visited[-1].visited = False
                         break
             return visited
 
@@ -172,7 +172,7 @@ class Maze:
                 cells[i].draw(self.window.canvas, overwrite=True)
                 self.window._redraw()
                 time.sleep(ANIMATION_DELAY)
-
+                
             cells[-1].draw(self.window.canvas, overwrite=True)
 
         for i in range(self.num_rows-1):
