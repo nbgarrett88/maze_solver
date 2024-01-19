@@ -175,8 +175,8 @@ class Maze:
                 
             cells[-1].draw(self.window.canvas, overwrite=True)
 
-        for i in range(self.num_rows-1):
-            for j in range(self.num_cols-1):
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
                 if not self._cells[i][j].visited:
                     if self._cells[i][j].p1.x > self._cells[0][0].p1.x:
                         if random.getrandbits(1):
