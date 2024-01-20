@@ -142,6 +142,7 @@ class Maze:
                         visited.pop()
                         visited[-1].visited = False
                         break
+                    
             return visited
 
         visited = []
@@ -175,23 +176,28 @@ class Maze:
                 
             cells[-1].draw(self.window.canvas, overwrite=True)
 
+        def rand_limit():
+            num = random.randrange(1,100)
+            if num <= 35:
+                return True
+
         for i in range(self.num_rows):
             for j in range(self.num_cols):
                 if not self._cells[i][j].visited:
                     if self._cells[i][j].p1.x > self._cells[0][0].p1.x:
-                        if random.getrandbits(1):
+                        if rand_limit():
                             self._cells[i][j].lw = False
                             self._cells[i][j-1].rw = False
                     if self._cells[i][j].p2.x < self._cells[-1][-1].p2.x:
-                        if random.getrandbits(1):
+                        if rand_limit():
                             self._cells[i][j].rw = False
                             self._cells[i][j+1].lw = False
                     if self._cells[i][j].p1.y > self._cells[0][0].p1.y:
-                        if random.getrandbits(1):
+                        if rand_limit():
                             self._cells[i][j].tw = False
                             self._cells[i-1][j].bw = False
                     if self._cells[i][j].p2.y < self._cells[-1][-1].p2.y:
-                        if random.getrandbits(1):
+                        if rand_limit():
                             self._cells[i][j].bw = False
                             self._cells[i+1][j].tw = False
             
