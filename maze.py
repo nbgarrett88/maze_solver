@@ -177,9 +177,7 @@ class Maze:
             cells[-1].draw(self.window.canvas, overwrite=True)
 
         def rand_limit():
-            num = random.randrange(1,100)
-            if num <= 35:
-                return True
+            return  random.randrange(1,100) <= 35
 
         for i in range(self.num_rows):
             for j in range(self.num_cols):
